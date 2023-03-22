@@ -16,23 +16,37 @@ class Program
 
         try
         {
-            // Localiza o elemento pai comum
-            var parentElement = driver.FindElement(By.CssSelector(".b1hJbf"));
+            // Localiza o elemento pai comum para o valor do dólar
+            var parentElementDolar = driver.FindElement(By.CssSelector(".b1hJbf"));
 
             // Localiza o elemento filho que exibe o valor do dólar dentro do elemento pai
-            var exchangeRateElement = parentElement.FindElement(By.CssSelector(".DFlfde.SwHCTb"));
+            var exchangeRateElementDolar = parentElementDolar.FindElement(By.CssSelector(".DFlfde.SwHCTb"));
 
             // Obtém o valor do dólar em relação ao real e a data/hora da cotação
-            var exchangeRateText = exchangeRateElement.Text;
+            var exchangeRateTextDolar = exchangeRateElementDolar.Text;
+
+            // Navega até a página de cotação do euro
+            driver.Navigate().GoToUrl("https://www.google.com/search?q=euro+para+real");
+
+            // Localiza o elemento pai comum para o valor do euro
+            var parentElementEuro = driver.FindElement(By.CssSelector(".b1hJbf"));
+
+            // Localiza o elemento filho que exibe o valor do euro dentro do elemento pai
+            var exchangeRateElementEuro = parentElementEuro.FindElement(By.CssSelector(".DFlfde.SwHCTb"));
+
+            // Obtém o valor do euro em relação ao real e a data/hora da cotação
+            var exchangeRateTextEuro = exchangeRateElementEuro.Text;
+
+            // Obtém a data/hora da cotação
             var dateTime = DateTime.Now;
 
-            // Cria uma string com o valor do dólar e a data/hora da cotação
-            var outputString = $"Valor do dólar: {exchangeRateText} - Data/hora da cotação: {dateTime}";
+            // Cria uma string com os valores do dólar, euro e a data/hora da cotação
+            var outputString = $"{dateTime} - Valor do dólar: {exchangeRateTextDolar}\r\n{dateTime} - Valor do euro: {exchangeRateTextEuro}";
 
             // Escreve a string no bloco de notas
-            System.IO.File.WriteAllText(@"C:\Users\Matheus\Documents\ValorDolar.txt", outputString);
+            System.IO.File.WriteAllText(@"C:\Users\Matheus\Documents\ValorMoedas\ValorMoedas.txt", outputString);
 
-            Console.WriteLine("Valor do dólar escrito com sucesso no bloco de notas.");
+            Console.WriteLine("Valores das moedas escritos com sucesso no bloco de notas.");
         }
         catch (NoSuchElementException)
         {
@@ -43,3 +57,4 @@ class Program
         driver.Quit();
     }
 }
+
